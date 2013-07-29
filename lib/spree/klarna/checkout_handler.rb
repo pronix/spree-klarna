@@ -5,14 +5,14 @@ module Spree
     class CheckoutHandler #:nodoc:
       # deal with the klarna rest api here
 
-      @@checkout_url = "https://checkout.klarna.com/checkout/orders"
-      @@sandbox_url  = "https://checkout.testdrive.klarna.com/checkout/orders"
+      @@checkout_url = 'https://checkout.klarna.com/checkout/orders'
+      @@sandbox_url  = 'https://checkout.testdrive.klarna.com/checkout/orders'
 
       attr_reader :data, :payload, :headers
 
       def get(params)
         @id      = params[:id]
-        @payload = ""
+        @payload = ''
         @headers = klarna_headers
         @url     = klarna_url + "/#{@id}"
         Excon.get @url, headers: @headers
@@ -36,16 +36,18 @@ module Spree
       end
 
       def klarna_headers
+        type = 'application/vnd.klarna.checkout.aggregated-order-v2+json'
         {
-          "Authentication" => "Klarna #{klarna_auth_digest}",
-          "Accept"         => "application/vnd.klarna.checkout.aggregated-order-v2+json",
-          "Content-Type"   => "application/vnd.klarna.checkout.aggregated-order-v2+json"
+          'Authentication' => "Klarna #{klarna_auth_digest}",
+          'Accept'         => type,
+          'Content-Type'   => type
         }
       end
 
       def klarna_auth_digest
         shared_secret = Spree::Klarna::Config.preferred_shared_secret
-        Base64.encode64 OpenSSL::Digest::SHA256.digest(@payload.to_s+shared_secret.to_s)
+        string = @payload.to_s + shared_secret.to_s
+        Base64.encode64 OpenSSL::Digest::SHA256.digest(string)
       end
 
       def klarna_url
