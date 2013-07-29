@@ -11,6 +11,11 @@ module Spree
       attr_reader :data, :payload, :headers
 
       def get(params)
+        @id      = params[:id]
+        @payload = ""
+        @headers = klarna_headers
+        @url     = klarna_url + "/#{@id}"
+        Excon.get @url, headers: @headers
       end
 
       def post(params)
@@ -18,6 +23,15 @@ module Spree
         @payload = data.to_json
         @headers = klarna_headers
         @url     = klarna_url
+        Excon.post @url, body: @payload, headers: @headers
+      end
+
+      def put(params)
+        @data    = params[:data]
+        @id      = params[:id]
+        @payload = data.to_json
+        @headers = klarna_headers
+        @url     = klarna_url + "/#{@id}"
         Excon.post @url, body: @payload, headers: @headers
       end
 

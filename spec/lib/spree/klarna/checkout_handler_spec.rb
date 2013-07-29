@@ -33,6 +33,44 @@ describe Spree::Klarna::CheckoutHandler do
     end
   end
 
+  context "#put" do ## uses mocking
+    it "sends an HTTP post request to Klarna order-update url" do
+      expected_url = "https://checkout.testdrive.klarna.com/checkout/orders/23"
+      Excon.should_receive(:post).with(expected_url, anything())
+      checkout_handler.put(data: post_data, id: 23)
+    end
+
+    it "sends JSON payload of the data hash" do
+      expected_payload = post_data.to_json
+      Excon.should_receive(:post)
+      checkout_handler.put(data: post_data, id: 23)
+      checkout_handler.payload.should eq(expected_payload)
+    end
+
+    it "sets a custom header" do
+      Excon.should_receive(:post)
+      checkout_handler.post(data: post_data, id: 23)
+      expected_headers = checkout_handler.klarna_headers
+      checkout_handler.headers.should eq(expected_headers)
+    end
+  end
+
+  context "#get" do ## uses mocking
+    it "sends an HTTP Get request to Klarna order fetch url" do
+      expected_url = "https://checkout.testdrive.klarna.com/checkout/orders/23"
+      Excon.should_receive(:get).with(expected_url, anything())
+      checkout_handler.get(id: 23)
+    end
+
+    it "sets a custom header" do
+      Excon.should_receive(:get)
+      checkout_handler.get(id: 23)
+      expected_headers = checkout_handler.klarna_headers
+      checkout_handler.headers.should eq(expected_headers)
+    end
+
+  end
+
   context "#klarna_headers" do
     before { checkout_handler.instance_variable_set(:@payload, "sample") }
 
