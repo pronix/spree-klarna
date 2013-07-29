@@ -19,7 +19,7 @@ module SpreeKlarna
     end
 
     initializer 'spree.klarna.environment', before: :load_config_initializers do |app|
-      Spree::Klarna::Config = Spree::KlarnaConfiguration.new
+      Spree::Klarna::Config = Spree::KlarnaSetting.new
     end
 
     def self.activate

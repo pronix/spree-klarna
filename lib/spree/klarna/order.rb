@@ -24,7 +24,7 @@ module Spree
     	end
 
     	def setup_properties_for_create
-    		properties = {} 
+    		properties = {}
     		properties[:purchase_country]  = spree_order_purchase_country
     		properties[:purchase_currency] = spree_order_purchase_currency
     		properties[:locale]            = spree_order_locale
@@ -48,7 +48,7 @@ module Spree
         h[:quantity]      = spree_item_quantity       item   ## mandatory
         h[:unit_price]    = spree_item_unit_price     item   ## mandatory
         h[:tax_rate]      = spree_item_tax_rate       item   ## mandatory
-        h[:type]          = spree_item_type           item   ## optional 
+        h[:type]          = spree_item_type           item   ## optional
         #h[:ean]           = spree_item_ean            item   ## optional
         h[:uri]           = spree_item_uri            item   ## optional
         h[:image_uri]     = spree_item_image_uri      item   ## optional
@@ -111,7 +111,7 @@ module Spree
       end
 
       def spree_item_type(item)
-        "physical"
+        'physical'
       end
 
       def spree_item_ean(item)
@@ -119,12 +119,21 @@ module Spree
       end
 
       def spree_item_uri(item)
-        "http://" + Spree::Config[:site_url] + "/" + item.variant.permalink
+        url_common + item.variant.permalink
+      end
+
+      def url_common
+        "http://#{Spree::Config[:site_url]}/"
       end
 
       def spree_item_image_uri(item)
-        item.variant.images.first.nil? ?  "" :
-          "http://" + Spree::Config[:site_url] + "/" + item.variant.images.first.attachment.url 
+        images = item.variant.images
+        if images.blank?
+          ''
+        else
+          attachment_url = images.first.attachment.url
+          url_common + attachment_url
+        end
       end
 
       def spree_item_discount_rates(item)
@@ -137,17 +146,17 @@ module Spree
         ## M, mandatory
         ## R, read only
         ##
-        ## # <letter1> <letter2> # 
+        ## # <letter1> <letter2> #
         ## letter1: checkout_incomplete
-        ## letter2: checkout_complete/created 
-        ## eg: 
-        ## # MR # Mandatory in checkout_incomplete, Read Only when checkout_complete 
+        ## letter2: checkout_complete/created
+        ## eg:
+        ## # MR # Mandatory in checkout_incomplete, Read Only when checkout_complete
         ##
         ## checkout_incomplete:mandatory properties:
         ##
-        ##   purchase_country 
+        ##   purchase_country
         ##   purchase_currency
-        ##   locale 
+        ##   locale
         ##   cart.items[0].reference
         ##   cart.items[0].name
         ##   cart.items[0].quantity
@@ -175,11 +184,11 @@ module Spree
         ##   cart.items[0].ean
         ##   cart.items[0].uri
         ##   cart.items[0].image_uri
-        ##   cart.items[0].discount_rate 
+        ##   cart.items[0].discount_rate
         ##   gui.layout
         ##   gui.options
-        ## 
-    		{                             
+        ##
+    		{
     			id: "",                     # RR # Unique identifier of the Klarna Checkout Order
     			merchant_reference: "",     # OO # Container for merchant reference. Currently supported keys are orderid1 and orderid2
     			purchase_country: "",       # MR # Country in which the purchase is done (ISO-3166-alpha2)
@@ -192,8 +201,8 @@ module Spree
     			completed_at: "",           # RR # Timestamp of when the Checkout was completed (ISO-8601)
     			created_at: "",             # RR # Timestamp of when the Order was created (ISO-8601)
     			last_modified_at: "",       # RR # Timestamp of when the Checkout was last modified (ISO-8601)
-    			expires_at: "",             # RR # Timestamp of when the Checkout will expire (ISO-8601) 
-    			billing_address: {          # RR # Billing address                                         
+    			expires_at: "",             # RR # Timestamp of when the Checkout will expire (ISO-8601)
+    			billing_address: {          # RR # Billing address
     				given_name: "",           # RR # Given name
     				family_name: "",          # RR # Family name
     				care_of: "",              # RR # c/o
@@ -203,11 +212,11 @@ module Spree
     				country: "",              # RR # Country (ISO-3166 alpha)
     				email: "",                # RR # E-mail address
     				phone: ""                 # RR # Phone number
-    			},                          
-    			shipping_address:{          # OR # Shipping address         
+    			},
+    			shipping_address:{          # OR # Shipping address
     				given_name: "",           # OR # Given name
     				family_name: "",          # OR # Family name
-    				care_of: "",              # OR # c/o 
+    				care_of: "",              # OR # c/o
     				street_address: "",       # OR # Street address (street name, street number, street extension)
     				postal_code: "",          # OR # Postal code
     				city: "",                 # OR # City
@@ -219,7 +228,7 @@ module Spree
     				total_price_excluding_tax: "",       # RR # Total price (excluding tax) in cents
     				total_tax_amount: "",                # RR # Total tax amount in cents
     				total_price_including_tax: "",       # RR # Total price (including tax) in cents
-    				items: [                               
+    				items: [
     					{ type: "",                        # OR # Type. `physical` by default, alternatively `discount`, `shipping_fee`
     						ean: "",                         # OR # The item's International Article Number. Please note this property is currently not returned when fetching the full order resource.
     						reference: "",                   # MR # Reference, usually the article number
@@ -236,15 +245,15 @@ module Spree
     					}
     				]
     			},
-  				customer: {                 
+  				customer: {
   					type: ""                  # RR # Type. Currently the only supported value is 'person'
-  				},                            
+  				},
   				gui: {                      # OR #
   					layout: "",               # OR # Layout. `desktop` by default, alternatively `mobile`
   					options: "",              # OR # An array of options to define the checkout behaviour. Supported options `disable_autofocus`.
   					snippet: ""               # RR # HTML snippet
-  				},                          
-  				merchant: {                 
+  				},
+  				merchant: {
   					id: "",                   # MR # Unique identifier (EID)
   					terms_uri: "",            # MR # URI of your terms and conditions
   					checkout_uri: "",         # MR # URI of your checkout page

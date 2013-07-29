@@ -6,10 +6,14 @@
 
 <%= form_tag(admin_klarna_settings_path, method: :put) do %>
   <fieldset class="no-border-top">
-    <div class="field">
-      <label><%= Spree.t(:active, scope: :klarna) %></label><br>
-      <%= text_field_tag('preferences[active]', Spree::Klarna::Config[:active], size: 3) %>
-    </div>
+    <% Spree::KlarnaSetting.new.preferences.map {|k,v| k}.each do |x| %>
+      <div class="field">
+        <label><%= Spree.t(x, scope: :klarna) %></label><br>
+        <% size = ( x =~ /uri/ ? 45 : 10 ) %>
+        <%= text_field_tag("preferences[#{x}]", Spree::Klarna::Config[x], size: size ) %>
+      </div>
+    <% end %>
+
 
     <div class="form-buttons filter-actions actions" data-hook="buttons">
       <%= button Spree.t('actions.update'), 'icon-refresh' %>
