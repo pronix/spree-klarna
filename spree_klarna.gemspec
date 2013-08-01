@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails', '~> 3.2.2'
   s.add_development_dependency 'sass-rails', '~> 3.2.6'
   s.add_development_dependency 'fuubar', '>= 0.0.1'
-  s.add_development_dependency 'database_cleaner'
+  s.add_development_dependency 'database_cleaner', '~> 1.0.1'
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'launchy'

@@ -56,7 +56,6 @@ module Spree
     		h
     	end
 
-
     	def merchant_properties
     		{
     			id:               Spree::Klarna::Config.preferred_id,
@@ -77,9 +76,9 @@ module Spree
 
       def spree_order_locale
         case I18n.locale
-          when :sv;   'sv-se'
-          when :fi;   'fi-fi'
-          else ;      ''
+          when :sv; 'sv-se'
+          when :fi; 'fi-fi'
+          else ;    ''
         end
       end
 
@@ -115,7 +114,7 @@ module Spree
       end
 
       def spree_item_ean(item)
-        ""  # sku matches best for this, but is being used for reference. This is optional, so leave
+        '' # sku matches best for this, but is being used for reference. This is optional, so leave
       end
 
       def spree_item_uri(item)
@@ -139,7 +138,6 @@ module Spree
       def spree_item_discount_rates(item)
         item.adjustments.sum(&:amount)/item.price * 100
       end
-
 
     	def empty_properties
         ## O, optional
@@ -189,76 +187,76 @@ module Spree
         ##   gui.options
         ##
     		{
-    			id: "",                     # RR # Unique identifier of the Klarna Checkout Order
-    			merchant_reference: "",     # OO # Container for merchant reference. Currently supported keys are orderid1 and orderid2
-    			purchase_country: "",       # MR # Country in which the purchase is done (ISO-3166-alpha2)
-    			purchase_currency: "",      # MR # Currency in which the purchase is done (ISO-4217)
-    			locale: "",                 # MR # Locale indicative for language & other location-specific details (RFC1766)
-    			status: "",                 # RO # Status. `checkout_incomplete` by default, alternatively `checkout_complete`, `created`
-    			reference: "",              # RR # End-consumer friendly reference
-    			reservation: "",            # RR # Reservation number to be used in the XML-RPC API
-    			started_at: "",             # RR # Timestamp of when the Checkout started (ISO-8601)
-    			completed_at: "",           # RR # Timestamp of when the Checkout was completed (ISO-8601)
-    			created_at: "",             # RR # Timestamp of when the Order was created (ISO-8601)
-    			last_modified_at: "",       # RR # Timestamp of when the Checkout was last modified (ISO-8601)
-    			expires_at: "",             # RR # Timestamp of when the Checkout will expire (ISO-8601)
+    			id: '',                     # RR # Unique identifier of the Klarna Checkout Order
+    			merchant_reference: '',     # OO # Container for merchant reference. Currently supported keys are orderid1 and orderid2
+    			purchase_country: '',       # MR # Country in which the purchase is done (ISO-3166-alpha2)
+    			purchase_currency: '',      # MR # Currency in which the purchase is done (ISO-4217)
+    			locale: '',                 # MR # Locale indicative for language & other location-specific details (RFC1766)
+    			status: '',                 # RO # Status. `checkout_incomplete` by default, alternatively `checkout_complete`, `created`
+    			reference: '',              # RR # End-consumer friendly reference
+    			reservation: '',            # RR # Reservation number to be used in the XML-RPC API
+    			started_at: '',             # RR # Timestamp of when the Checkout started (ISO-8601)
+    			completed_at: '',           # RR # Timestamp of when the Checkout was completed (ISO-8601)
+    			created_at: '',             # RR # Timestamp of when the Order was created (ISO-8601)
+    			last_modified_at: '',       # RR # Timestamp of when the Checkout was last modified (ISO-8601)
+    			expires_at: '',             # RR # Timestamp of when the Checkout will expire (ISO-8601)
     			billing_address: {          # RR # Billing address
-    				given_name: "",           # RR # Given name
-    				family_name: "",          # RR # Family name
-    				care_of: "",              # RR # c/o
-    				street_address: "",       # RR # billing_address.street_address
-    				postal_code: "",          # RR # Postal code
-    				city: "",                 # RR # City
-    				country: "",              # RR # Country (ISO-3166 alpha)
-    				email: "",                # RR # E-mail address
-    				phone: ""                 # RR # Phone number
+    				given_name: '',           # RR # Given name
+    				family_name: '',          # RR # Family name
+    				care_of: '',              # RR # c/o
+    				street_address: '',       # RR # billing_address.street_address
+    				postal_code: '',          # RR # Postal code
+    				city: '',                 # RR # City
+    				country: '',              # RR # Country (ISO-3166 alpha)
+    				email: '',                # RR # E-mail address
+    				phone: ''                 # RR # Phone number
     			},
     			shipping_address:{          # OR # Shipping address
-    				given_name: "",           # OR # Given name
-    				family_name: "",          # OR # Family name
-    				care_of: "",              # OR # c/o
-    				street_address: "",       # OR # Street address (street name, street number, street extension)
-    				postal_code: "",          # OR # Postal code
-    				city: "",                 # OR # City
-    				country: "",              # OR # Country (ISO-3166 alpha)
-    				email: "",                # OR # E-mail address
-    				phone: ""    				      # OR # Phone number
+    				given_name: '',           # OR # Given name
+    				family_name: '',          # OR # Family name
+    				care_of: '',              # OR # c/o
+    				street_address: '',       # OR # Street address (street name, street number, street extension)
+    				postal_code: '',          # OR # Postal code
+    				city: '',                 # OR # City
+    				country: '',              # OR # Country (ISO-3166 alpha)
+    				email: '',                # OR # E-mail address
+    				phone: ''    				      # OR # Phone number
     			},
     			cart: {
-    				total_price_excluding_tax: "",       # RR # Total price (excluding tax) in cents
-    				total_tax_amount: "",                # RR # Total tax amount in cents
-    				total_price_including_tax: "",       # RR # Total price (including tax) in cents
+    				total_price_excluding_tax: '',       # RR # Total price (excluding tax) in cents
+    				total_tax_amount: '',                # RR # Total tax amount in cents
+    				total_price_including_tax: '',       # RR # Total price (including tax) in cents
     				items: [
-    					{ type: "",                        # OR # Type. `physical` by default, alternatively `discount`, `shipping_fee`
-    						ean: "",                         # OR # The item's International Article Number. Please note this property is currently not returned when fetching the full order resource.
-    						reference: "",                   # MR # Reference, usually the article number
-    						name: "",                        # MR # Name, usually a short description
-    						uri: "",                         # OR # Item product page URI. Please note this property is currently not returned when fetching the full order resource.
-    						image_uri: "",                   # OR # Item image URI. Please note this property is currently not returned when fetching the full order resource.
-    						quantity: "",                    # MR # Quantity
-    						unit_price: "",                  # MR # Unit price in cents, including tax
-    						total_price_excluding_tax: "",   # RR # Total price (excluding tax) in cents
-    						total_tax_amount: "",            # RR # Total tax amount, in cents
-    						total_price_including_tax: "",   # RR # Total price (including tax) in cents
-    						discount_rate: "",               # OR # Percentage of discount, multiplied by 100 and provided as an integer. i.e. 9.57% should be sent as 957
-    						tax_rate: ""                     # MR # Percentage of tax rate, multiplied by 100 and provided as an integer. i.e. 13.57% should be sent as 1357
+    					{ type: '',                        # OR # Type. `physical` by default, alternatively `discount`, `shipping_fee`
+    						ean: '',                         # OR # The item's International Article Number. Please note this property is currently not returned when fetching the full order resource.
+    						reference: '',                   # MR # Reference, usually the article number
+    						name: '',                        # MR # Name, usually a short description
+    						uri: '',                         # OR # Item product page URI. Please note this property is currently not returned when fetching the full order resource.
+    						image_uri: '',                   # OR # Item image URI. Please note this property is currently not returned when fetching the full order resource.
+    						quantity: '',                    # MR # Quantity
+    						unit_price: '',                  # MR # Unit price in cents, including tax
+    						total_price_excluding_tax: '',   # RR # Total price (excluding tax) in cents
+    						total_tax_amount: '',            # RR # Total tax amount, in cents
+    						total_price_including_tax: '',   # RR # Total price (including tax) in cents
+    						discount_rate: '',               # OR # Percentage of discount, multiplied by 100 and provided as an integer. i.e. 9.57% should be sent as 957
+    						tax_rate: ''                     # MR # Percentage of tax rate, multiplied by 100 and provided as an integer. i.e. 13.57% should be sent as 1357
     					}
     				]
     			},
   				customer: {
-  					type: ""                  # RR # Type. Currently the only supported value is 'person'
+  					type: ''                  # RR # Type. Currently the only supported value is 'person'
   				},
   				gui: {                      # OR #
-  					layout: "",               # OR # Layout. `desktop` by default, alternatively `mobile`
-  					options: "",              # OR # An array of options to define the checkout behaviour. Supported options `disable_autofocus`.
-  					snippet: ""               # RR # HTML snippet
+  					layout: '',               # OR # Layout. `desktop` by default, alternatively `mobile`
+  					options: '',              # OR # An array of options to define the checkout behaviour. Supported options `disable_autofocus`.
+  					snippet: ''               # RR # HTML snippet
   				},
   				merchant: {
-  					id: "",                   # MR # Unique identifier (EID)
-  					terms_uri: "",            # MR # URI of your terms and conditions
-  					checkout_uri: "",         # MR # URI of your checkout page
-  					confirmation_uri: "",     # MR # URI of your confirmation page
-  					push_uri: ""              # MR # URI of your push-notification page
+  					id: '',                   # MR # Unique identifier (EID)
+  					terms_uri: '',            # MR # URI of your terms and conditions
+  					checkout_uri: '',         # MR # URI of your checkout page
+  					confirmation_uri: '',     # MR # URI of your confirmation page
+  					push_uri: ''              # MR # URI of your push-notification page
   				}
     		}
     	end
