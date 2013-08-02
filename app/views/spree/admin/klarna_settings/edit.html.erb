@@ -10,10 +10,9 @@
       <div class="field">
         <label><%= Spree.t(x, scope: :klarna) %></label><br>
         <% size = ( x =~ /uri/ ? 45 : 10 ) %>
-        <%= text_field_tag("preferences[#{x}]", Spree::Klarna::Config[x], size: size ) %>
+        <%= text_field_tag("preferences[#{x}]", Spree::Klarna::Config[x], size: size) %>
       </div>
     <% end %>
-
 
     <div class="form-buttons filter-actions actions" data-hook="buttons">
       <%= button Spree.t('actions.update'), 'icon-refresh' %>

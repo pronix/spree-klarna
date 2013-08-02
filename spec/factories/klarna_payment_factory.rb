@@ -5,11 +5,11 @@ FactoryGirl.define do
     invoice_number nil
 
     trait :swedish do
-      personal_identity_number "410321-9202"
+      personal_identity_number '410321-9202'
     end
 
     trait :finnish do
-      personal_identity_number "190122-829F"
+      personal_identity_number '190122-829F'
     end
   end
 end

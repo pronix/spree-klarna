@@ -1,23 +1,20 @@
 require 'spec_helper'
 
-feature 'settings for klarna' do
+feature 'Settings for Klarna' do
+  given!(:admin) { create(:admin_user) }
 
-  background :each do
-    @admin = create(:admin_user)
-  end
-
-  scenario 'set klarna settings' do
+  scenario 'update' do
     visit '/admin'
     fill_in 'spree_user_password', with: 'secret'
     fill_in 'spree_user_email', with: @admin.email
     click_button 'Login'
 
     click_link 'Configuration'
-
     click_link 'Klarna Settings'
 
     id = '123456'
     secret = 'asd123asd'
+
     fill_in 'preferences_id', with: id
     fill_in 'preferences_shared_secret', with: secret
 
@@ -27,5 +24,4 @@ feature 'settings for klarna' do
     klarna[:id].should == id
     klarna[:shared_secret].should == secret
   end
-
 end
