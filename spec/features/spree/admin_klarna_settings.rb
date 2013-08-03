@@ -20,6 +20,8 @@ feature 'Settings for Klarna' do
 
     click_button 'Update'
 
+    expect(page).to have_content('Update successfuly')
+
     klarna = Spree::KlarnaSetting.new
     klarna[:id].should == id
     klarna[:shared_secret].should == secret
