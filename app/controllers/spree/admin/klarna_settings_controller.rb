@@ -4,10 +4,11 @@ module Spree
     # save settings
     def update
       settings = Spree::KlarnaSetting.new
-      params[:preferences].each do |k,v|
+      params[:preferences].each do |k, v|
         settings[k] = v
       end
-      render :show
+      flash[:notice] = 'Update successfuly'
+      render :edit
     end
 
   end
