@@ -67,7 +67,8 @@ feature 'Klarna Checkout' do
     click_button 'Save and Continue'
 
     # payment page
-    pending 'not add yet by deface override'
+    save_and_open_page
+#    pending 'not add yet by deface override'
     fill_in 'social_security_number', with: '410321-9202'
     click_button 'Save and Continue'
 

@@ -45,7 +45,7 @@ module Spree
       end
 
       def klarna_auth_digest
-        shared_secret = Spree::Klarna::Config.preferred_shared_secret
+        shared_secret = Spree::PaymentMethod::KlarnaInvoice.first.preferred_shared_secret
         string = @payload.to_s + shared_secret.to_s
         Base64.encode64 OpenSSL::Digest::SHA256.digest(string)
       end

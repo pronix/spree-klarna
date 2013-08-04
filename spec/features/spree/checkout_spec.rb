@@ -1,25 +1,29 @@
 require 'spec_helper'
 
-feature 'Klarna Checkout', js: true do
+feature 'Klarna Checkout' do
   given!(:country)         { create(:country, name: 'Sweden', states_required: false) }
   given!(:shipping_method) { create(:shipping_method) }
   given!(:stock_location)  { create(:stock_location) }
   given!(:product)         { create(:product, name: 'Moose Roadsign') }
   given!(:payment_method)  { create(:klarna_payment_method) }
   given!(:zone)            { create(:zone) }
-  given(:testperson)       { create(:test_person, :sweden) }
+  given(:testperson)       { create(:test_person, :swedish) }
 
   background do
     stock_location.stock_items.update_all(count_on_hand: 1)
   end
 
   pending 'methods' do
+
     scenario 'should create order with Klarna' do
       add_product_to_cart
       click_button 'Checkout'
 
       guest_checkout
 
+      save_and_open_page
+      puts Spree::Country.all.map(&:name).to_yaml
+      country.save!
       fill_in_address
 
       click_button 'Save and Continue'
@@ -73,16 +77,17 @@ feature 'Klarna Checkout', js: true do
 
   def fill_in_address
     addr = 'order_bill_address_attributes_'
-    fill_in "#{addr}firstname", with: testperson.firstname
-    fill_in "#{addr}lastname",  with: testperson.flastname
-    fill_in "#{addr}address1",  with: testperson.address
-    fill_in "#{addr}city",      with: testperson.city
-    select test_country, from: "#{addr}country_id"
+    check 'order_use_billing'
+    fill_in "#{addr}firstname", with: 'Joe'
+    fill_in "#{addr}lastname",  with: 'User'
+    fill_in "#{addr}address1",  with: '7735 Old Georgetown Road'
+    fill_in "#{addr}address2",  with: 'Suite 510'
+    fill_in "#{addr}city",      with: 'Bethesda'
+    fill_in "#{addr}zipcode",   with: '20814'
+    fill_in "#{addr}phone",     with: '301-444-5002'
     within 'fieldset#billing' do
       select country.name, from: 'Country'
     end
-    fill_in "#{addr}zipcode",   with: testperson.zip
-    fill_in "#{addr}phone",     with: testperson.phone
   end
 
   def add_product_to_cart

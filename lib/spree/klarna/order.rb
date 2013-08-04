@@ -57,12 +57,14 @@ module Spree
     	end
 
     	def merchant_properties
+        # correct only for 1 klarna paymethod for shop
+        klarna_gate = Spree::PaymentMethod::KlarnaInvoice.first
     		{
-    			id:               Spree::Klarna::Config.preferred_id,
-    			terms_uri:        Spree::Klarna::Config.preferred_terms_uri,
-    			checkout_uri:     Spree::Klarna::Config.preferred_checkout_uri,
-    			confirmation_uri: Spree::Klarna::Config.preferred_confirmation_uri,
-    			push_uri:         Spree::Klarna::Config.preferred_push_uri
+    			id:               klarna_gate.preferred_id,
+    			terms_uri:        klarna_gate.preferred_terms_uri,
+    			checkout_uri:     klarna_gate.preferred_checkout_uri,
+    			confirmation_uri: klarna_gate.preferred_confirmation_uri,
+    			push_uri:         klarna_gate.preferred_push_uri
     		}
     	end
 
@@ -106,7 +108,7 @@ module Spree
       end
 
       def spree_zone_id
-        Spree::Zone.find_by_name(Spree::Klarna::Config.preferred_eu_zone_name).id
+        Spree::Zone.find_by_name(Spree::PaymentMethod::KlarnaInvoice.first.preferred_eu_zone_name).id
       end
 
       def spree_item_type(item)

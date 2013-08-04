@@ -8,7 +8,13 @@ describe Spree::Klarna::CheckoutHandler do
   end
 
   before do
-    Spree::Klarna::Config.preferred_shared_secret = 'abc'
+    klarna_gate = Spree::PaymentMethod::KlarnaInvoice.create(
+       name: 'klarna123',
+       active: true,
+       environment: 'test',
+       display_on: ''
+    )
+    klarna_gate.preferred_shared_secret = 'abc'
   end
 
   context '#post' do  ## uses mocking
